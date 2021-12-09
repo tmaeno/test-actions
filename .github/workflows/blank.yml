@@ -35,3 +35,7 @@ jobs:
           ls
           VERSION=`python -c 'exec(open("src/pandaclient/PandaToolsPkgInfo.py").read());print (release_version)'`
           echo $VERSION
+          wget https://github.com/PanDAWMS/panda-client/archive/refs/tags/${VERSION}.tar.gz -o tar.gz
+          SHA=`sha256sum tar.gz`
+          echo $SHA
+          
