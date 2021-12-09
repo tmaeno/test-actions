@@ -33,5 +33,5 @@ jobs:
         run: |
           pwd
           ls
-          VERSION=`python -c 'exec(open("pandaclient/PandaToolsPkgInfo.py").read());print (release_version)'`
+          VERSION=`python -c 'exec(open("src/pandaclient/PandaToolsPkgInfo.py").read());print (release_version)'`
           echo $VERSION
