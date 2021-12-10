@@ -73,6 +73,6 @@ jobs:
         run: |
           cd dst
           pwd
-          gh pr list
+          gh pr create -t "aaa" -b "bbb"
           
           
