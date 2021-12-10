@@ -60,6 +60,8 @@ jobs:
           ls
           cat recipe/meta.yaml
           git diff
+          git config --global user.name 'Tadashi Maeno'
+          git config --global user.email 'tmaeno@bnl.gov'
           git commit -am "github action"
           git push
           
