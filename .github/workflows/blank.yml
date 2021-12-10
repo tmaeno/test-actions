@@ -55,7 +55,7 @@ jobs:
           SHA256SUM=${SHA256SUM% *}
           echo $SHA256SUM
           sed -e "s/___PACKAGE_VERSION___/${VERSION}/g" src/templates/conda_meta.yml.template \
-            | sed -e "s/___SHA256SUM___/${SHA256SUM}aaa/g" > dst/recipe/meta.yaml
+            | sed -e "s/___SHA256SUM___/${SHA256SUM}aaaff/g" > dst/recipe/meta.yaml
           cd dst
           ls
           cat recipe/meta.yaml
