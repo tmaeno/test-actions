@@ -37,6 +37,7 @@ jobs:
       - name: Run a one-line script
         run: |
           cd dst
+          git remote add upstream https://github.com/conda-forge/${REPO_NAME}-freestock.git
           git remote -v
           git fetch upstream
           cd -
