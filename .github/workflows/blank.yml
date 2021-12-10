@@ -22,16 +22,17 @@ jobs:
       
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-        with:
-          repository: ${{ github.repository_owner }}/panda-client-feedstock
-          path: dst
-          
       - uses: actions/checkout@v2
         with:
           repository: PanDAWMS/panda-client
           path: src
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secret.PAT }}
+          repository: ${{ github.repository_owner }}/panda-client-feedstock
+          path: dst
           
       # Runs a single command using the runners shell
       - name: Run a one-line script
@@ -59,8 +60,6 @@ jobs:
           ls
           cat recipe/meta.yaml
           git diff
-          git config user.name github-actions
-          git config user.email github-actions@github.com
           git commit -am "github action"
           git push
           
