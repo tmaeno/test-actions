@@ -30,7 +30,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
-          token: ${{ secret.PAT }}
+          token: ${{ secrets.PAT }}
           repository: ${{ github.repository_owner }}/panda-client-feedstock
           path: dst
           
