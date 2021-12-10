@@ -30,7 +30,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.PAT }}
           repository: ${{ github.repository_owner }}/panda-client-feedstock
           path: dst
           
@@ -55,13 +54,13 @@ jobs:
           SHA256SUM=${SHA256SUM% *}
           echo $SHA256SUM
           sed -e "s/___PACKAGE_VERSION___/${VERSION}/g" src/templates/conda_meta.yml.template \
-            | sed -e "s/___SHA256SUM___/${SHA256SUM}aaaff/g" > dst/recipe/meta.yaml
+            | sed -e "s/___SHA256SUM___/${SHA256SUM}ddaff/g" > dst/recipe/meta.yaml
           cd dst
           ls
           cat recipe/meta.yaml
           git diff
-          git config --global user.name 'Tadashi Maeno'
-          git config --global user.email 'tmaeno@bnl.gov'
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           git commit -am ${VERSION}
           git push
       
