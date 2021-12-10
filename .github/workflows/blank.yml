@@ -67,7 +67,7 @@ jobs:
       
       - name: Request pull
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
         run: |
           cd dst
           pwd
