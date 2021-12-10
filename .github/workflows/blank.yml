@@ -37,6 +37,7 @@ jobs:
       - name: Run a one-line script
         run: |
           cd dst
+          git remote -v
           git remote add upstream https://github.com/conda-forge/${REPO_NAME}-feedstock.git
           git remote -v
           git fetch upstream
@@ -48,13 +49,14 @@ jobs:
           echo REPO_NAME=$REPO_NAME
           echo PACKAGE_NAME=$PACKAGE_NAME
           echo VERSION=$VERSION
-          wget https://github.com/${OWNER_NAME}/${REPO_NAME}/archive/refs/tags/${VERSION}.tar.gz -O dummy.tar.gz
+          wget https://github.com/${OWNER_NAME}/${REPO_NAME}/archive/refs/tags/${VERSION}.tar.gz -O dummy.tar.gz -q
           SHA256SUM=`sha256sum dummy.tar.gz`
           SHA256SUM=${SHA256SUM% *}
           echo $SHA256SUM
           sed -e "s/___PACKAGE_VERSION___/${VERSION}/g" src/templates/conda_meta.yml.template \
             | sed -e "s/___SHA256SUM___/${SHA256SUM}/g" > dst/recipe/meta.yaml
-          pwd
+          cd dst
           ls
-          ls dst/recipe
-          cat dst/recipe/meta.yaml
+          cat recipe/meta.yaml
+          git diff
+          
