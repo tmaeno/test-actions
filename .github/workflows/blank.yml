@@ -17,14 +17,15 @@ jobs:
 
     # repository name
     env:
-     REPO_NAME: ${{ github.event.repository.name }}
+      REPO_NAME: panda-client
+      OWNER_NAME: PanDAWMS
       
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
-          repository: ${{ github.repository_owner	}}/panda-client-feedstock
+          repository: ${{ github.repository_owner }}/panda-client-feedstock
           path: dst
           
       - uses: actions/checkout@v2
@@ -35,18 +36,19 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: |
-          pwd
-          ls
-          echo $REPO_NAME
           PACKAGE_NAME=`echo $REPO_NAME | sed -e 's/-//g'`
-          VERSION=`python -c 'exec(open("src/pandaclient/PandaToolsPkgInfo.py").read());print (release_version)'`
-          echo $VERSION
-          echo $PACKAGE_NAME
-          wget https://github.com/PanDAWMS/panda-client/archive/refs/tags/${VERSION}.tar.gz -O dummy.tar.gz
+          cd src/${PACKAGE_NAME}
+          VERSION=`python -c 'exec(open("PandaToolsPkgInfo.py").read());print (release_version)'`
+          cd -
+          echo REPO_NAME=$REPO_NAME
+          echo PACKAGE_NAME=$PACKAGE_NAME
+          echo VERSION=$VERSION
+          wget https://github.com/${OWNER_NAME}/${REPO_NAME}/archive/refs/tags/${VERSION}.tar.gz -O dummy.tar.gz
           SHA256SUM=`sha256sum dummy.tar.gz`
           SHA256SUM=${SHA256SUM% *}
           echo $SHA256SUM
           sed -e "s/___PACKAGE_VERSION___/${VERSION}/g" src/templates/conda_meta.yml.template | sed -e "s/___SHA256SUM___/${SHA256SUM}/g" > dst/recipe/meta.yaml
-          cat dst/recipe/meta.yaml
+          pwd
+          ls
           ls dst/recipe
-          
+          cat dst/recipe/meta.yaml
