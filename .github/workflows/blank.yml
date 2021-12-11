@@ -48,6 +48,6 @@ jobs:
           cd dst
           git config --global user.name 'Tadashi Maeno'
           git config --global user.email 'tmaeno@bnl.gov'
-          git commit -am "${VERSION} github action"
+          git diff --quiet && git diff --staged --quiet || git commit -am "${VERSION} github action"
           git push          
           
