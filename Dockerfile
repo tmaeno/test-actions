@@ -1,30 +1,19 @@
-ARG VERSION=14
+FROM docker.io/almalinux:9
 
-FROM postgres:${VERSION}
+ARG PYTHON_VERSION
 
-ARG VERSION
+RUN yum update -y
+RUN yum install -y wget
 
-ENV POSTGRESQL_USER postgres
-ENV POSTGRES_PASSWORD password
-ENV PGDATA /temp/data
+RUN mkdir -p /opt/miniconda3 && \
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh && \
+    bash /tmp/miniconda.sh -b -u -p /opt/miniconda3 && \
+    rm -rf /tmp/miniconda.sh
 
-RUN apt-get update \
-      && apt-get install -y postgresql-${VERSION}-cron \
-      postgresql-${VERSION}-partman procps \
-      && rm -rf /var/lib/apt/lists/*
+RUN adduser trkrec
+RUN groupadd zp
+RUN usermod -a -G zp trkrec
+USER trkrec
+RUN /opt/miniconda3/bin/conda init bash && . ~/.bashrc && conda create -n trkrec -y -c conda-forge root pyyaml
 
-
-COPY ./etc/postgresql.conf /etc/postgresql/postgresql.conf
-
-RUN mkdir -p /docker-entrypoint-initdb.d/sqls
-
-COPY ./initdb/*.sh /docker-entrypoint-initdb.d/
-COPY ./initdb/sqls/* /docker-entrypoint-initdb.d/sqls/
-
-RUN mkdir /temp
-#RUN groupadd non-root-postgres-group
-#RUN useradd non-root-postgres-user --group non-root-postgres-group
-#RUN chown -R non-root-postgres-user:non-root-postgres-group /temp
-RUN chmod 777 /temp
-
-CMD ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
