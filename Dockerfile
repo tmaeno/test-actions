@@ -10,10 +10,10 @@ RUN mkdir -p /opt/miniconda3 && \
     bash /tmp/miniconda.sh -b -u -p /opt/miniconda3 && \
     rm -rf /tmp/miniconda.sh
 
-RUN adduser trkrec
+RUN adduser auser
 RUN groupadd zp
 RUN usermod -a -G zp trkrec
-USER trkrec
-RUN /opt/miniconda3/bin/conda init bash && . ~/.bashrc && conda create -n trkrec -y -c conda-forge root pyyaml
+USER auser
+RUN /opt/miniconda3/bin/conda init bash && . ~/.bashrc && conda create -n testenv -y -c conda-forge root pyyaml
 
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
