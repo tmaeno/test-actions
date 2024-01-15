@@ -12,7 +12,7 @@ RUN mkdir -p /opt/miniconda3 && \
 
 RUN adduser auser
 RUN groupadd zp
-RUN usermod -a -G zp trkrec
+RUN usermod -a -G zp auser
 USER auser
 RUN /opt/miniconda3/bin/conda init bash && . ~/.bashrc && conda create -n testenv -y -c conda-forge root pyyaml
 
