@@ -16,4 +16,4 @@ RUN usermod -a -G zp auser
 USER auser
 RUN /opt/miniconda3/bin/conda init bash && . ~/.bashrc && conda create -n testenv -y -c conda-forge root pyyaml
 
-CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
+CMD ["/bin/bash"]
