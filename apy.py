@@ -7,15 +7,14 @@ def aaa(req, par):
       summary: Returns a list of users.
       description: Optional extended description in CommonMark or HTML
       parameters:
-        - in: par
-          name: userId
-          schema:
-            type: integer
-          required: true
-          description: Numeric ID of the user to get
+      - in: query
+        name: par
+        schema:
+          type: string
+        description: The number of items to skip before starting to collect the result set
       responses:
         "200":
-          description: A JSON array of user names
+          description: A JSON array of strings
           content:
             application/json:
               schema:
